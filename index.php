@@ -1,5 +1,8 @@
 <?php
 include_once 'Controller/EditorialesController.php';
+include_once 'Controller/LibrosController.php';
+include_once 'Controller/UsuariosController.php';
+include_once 'Core/config.php';
 $url=$_SERVER['REQUEST_URI'];
 $url=explode("/",$url);
 $controller=empty($url[3])?"Index":$url[3];

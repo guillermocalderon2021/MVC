@@ -1,24 +1,36 @@
 <?php
 require_once 'Controller.php';
+require_once './Model/LibrosModel.php';
+require_once './Model/AutoresModel.php';
+require_once './Model/GenerosModel.php';
 require_once './Model/EditorialesModel.php';
 require_once './Core/validaciones.php';
-class EditorialesController extends Controller{
+class LibrosController extends Controller{
 
     private $model;
 
     function __construct(){
-        $this->model=new EditorialesModel();
+        $this->model=new LibrosModel();
     }
 
     public function index(){
         $viewBag=array();
-        $editoriales=$this->model->get();
-        $viewBag['editoriales']=$editoriales;
+        $libros=$this->model->get();
+        $viewBag['libros']=$libros;
+        //var_dump($viewBag);
         $this->render("index.php",$viewBag);
     }
 
     public function create(){
-        $this->render("new.php");
+        $viewBag=array();
+        $generosModel=new GenerosModel();
+        $autoresModel=new AutoresModel();
+        $editorialesModel=new EditorialesModel();
+        $viewBag['editoriales']=$editorialesModel->get();
+        $viewBag['autores']=$autoresModel->get();
+        $viewBag['generos']=$generosModel->get();
+        //var_dump($viewBag);
+        $this->render("new.php",$viewBag);
     }
 
     public function add(){
