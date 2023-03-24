@@ -4,11 +4,31 @@ require_once './Model/UsuariosModel.php';
 
 class UsuariosController extends Controller{
 
-    public function checkUser(){
+    public function login(){
+        $this->render("login.php");
+    }
+
+    
+    public function logout(){
+        session_unset();
+        session_destroy();
+        header('location:'.PATH.'/Usuarios/login');
+
+    }
+    public function validate(){
         $model=new UsuariosModel();
-        $user="guille";
-        $pass="1234567";
-        $tipo=$model->validateUser($user,$pass);
-        var_dump($tipo);
+        $user=$_POST['usuario'];
+        $pass=$_POST['clave'];
+        
+        if(!empty($model->validateUser($user,$pass))){
+            $login_data=$model->validateUser($user,$pass);
+            $login_data=$login_data[0];
+            $_SESSION['login_data']=$login_data;
+            header('location:'.PATH.'/Libros');
+           // 
+        }
+        else{
+            $this->render("login.php");
+        }
     }
 }

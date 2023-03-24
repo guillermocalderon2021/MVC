@@ -43,6 +43,7 @@ abstract class Model{
             return $affectedRows;
         }
         catch(Exception $e){
+            echo $e->getMessage();
             $this->closeConnection();
             return -1;
         }

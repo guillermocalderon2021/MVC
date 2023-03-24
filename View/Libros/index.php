@@ -48,7 +48,11 @@
                         <td><?=$libro['nombre_autor']?></td>
                         <td><?=$libro['nombre_editorial']?></td>
                         <td><?=$libro['nombre_genero']?></td>
-                        <td><a class="btn btn-success" href="<?= PATH.'/Editoriales/edit/'.$editorial['codigo_editorial']?>">Modificar</a></td>
+                        <td>
+                                    <a data-toggle="tooltip" title="Detalles"  class="btn btn-default btn-circle" href="javascript:void(0)" onclick="detalles('<?=$libro['codigo_libro']?>')"><span class="glyphicon glyphicon-book"></span></a>
+                                    <a title="Editar" class="btn btn-primary btn-circle" href="#"><span class="glyphicon glyphicon-edit"></span></a>
+                                    <a title="Eliminar"  class="btn btn-danger btn-circle" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+                        </td>
                     </tr>
 
                     <?php
@@ -60,7 +64,62 @@
                     </tbody>
                 </table>
                 </div> 
-            </div>                    
+            </div>  
+            <!-- Bootstrap modal -->
+<div class="modal fade" id="modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="titulo-modal"></h3>
+            </div>
+            <div class="modal-body form">
+                <ul class="list-group">
+                    <li class="list-group-item"><b>Nombre del libro: </b> <span id="nombre"></span></li>
+                    <li class="list-group-item"> <b>Precio: </b> $<span id="precio"></span></li>
+                    <li class="list-group-item"> <b>Existencias: </b> <span id="existencias"></span></li>
+                    <li class="list-group-item"> <b>Autor: </b> <span id="autor"></span></li>
+                    <li class="list-group-item"> <b>Editorial: </b> <span id="editorial"></span></li>
+                    <li class="list-group-item"> <b>Genero: </b> <span id="genero"></span></li>
+                </ul>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End Bootstrap modal -->
+
+<script>
+    $(document).ready(function () {
+        $('#tabla').DataTable();
+    });
+    
+    function detalles(id){
+        $.ajax({
+            url:"<?=PATH?>/Libros/details/"+id,
+            type:"GET",
+            dataType:"JSON",
+            success: function(datos){
+                $('#nombre').text(datos.nombre_libro);
+                $('#precio').text(datos.precio);
+                $('#existencias').text(datos.existencias);
+                $('#autor').text(datos.nombre_autor);
+                $('#editorial').text(datos.nombre_editorial);
+                $('#genero').text(datos.nombre_genero);
+                $('#modal').modal('show');
+                $('.titulo-modal').text(datos.nombre_libro);
+            }
+        })
+  
+    }
+    
+   
+</script>
+
+            
         </div> 
 <body>
     </html>

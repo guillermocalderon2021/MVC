@@ -10,7 +10,14 @@ class LibrosController extends Controller{
     private $model;
 
     function __construct(){
-        $this->model=new LibrosModel();
+        
+        if(is_null( $_SESSION['login_data'])){
+            header('location:'.PATH.'/Usuarios/login');
+        }
+       
+        else{
+            $this->model=new LibrosModel();
+        }
     }
 
     public function index(){
@@ -19,6 +26,10 @@ class LibrosController extends Controller{
         $viewBag['libros']=$libros;
         //var_dump($viewBag);
         $this->render("index.php",$viewBag);
+    }
+
+    public function details($id){
+        echo json_encode($this->model->get($id)[0]);
     }
 
     public function create(){
@@ -37,43 +48,41 @@ class LibrosController extends Controller{
         if(isset($_POST['Guardar'])){
             extract($_POST);
             $errores=array();
-            $editorial=array();
+            $libro=array();
             $viewBag=array();
-            $editorial['codigo_editorial']=$codigo_editorial;
-            $editorial['nombre_editorial']=$nombre_editorial;
-            $editorial['contacto']=$contacto;
-            $editorial['telefono']=$telefono;
+            $libro['codigo_libro']=$codigo_libro;
+            $libro['nombre_libro']=$nombre_libro;
+            $libro['existencias']=$existencias;
+            $libro['precio']=$precio;
+            $libro['codigo_editorial']=$codigo_editorial;
+            $libro['codigo_autor']=$codigo_autor;
+            $libro['id_genero']=$genero;
+            $libro['descripcion']=$descripcion;
+            $libro['imagen']="default.png";
+            //var_dump($libro);
 
-            if(estaVacio($codigo_editorial)||!isset($codigo_editorial)){
-                array_push($errores,'Debes ingresar el codigo del editorial');
-            }
-            elseif(!esCodigoEditorial($codigo_editorial)){
-                array_push($errores,'El codigo del editorial debe tener el formato EDI###');
-            }
-
-            if(estaVacio($nombre_editorial)||!isset($nombre_editorial)){
-                array_push($errores,'Debes ingresar el nombre del editorial');
+            if(estaVacio($codigo_libro)||!isset($codigo_libro)){
+                array_push($errores,'Debes ingresar el codigo del libro');
             }
             
-            if(estaVacio($contacto)||!isset($contacto)){
-                array_push($errores,'Debes ingresar el contacto'); 
+            if(estaVacio($nombre_libro)||!isset($nombre_libro)){
+                array_push($errores,'Debes ingresar el nombre del libro');
             }
             
-            if(estaVacio($telefono)||!isset($telefono)){
-                array_push($errores,'Debes ingresar el número de telefono');
-            }
-            elseif(!esTelefono($telefono)){
-                array_push($errores,'El telefono no tiene el formato correcto');
-            }
-
             if(count($errores)==0){
-                $this->model->insertEditorial($editorial);
-                header('location:'.PATH.'/Editoriales');
+            $this->model->insertLibro($libro);
+              header('location:'.PATH.'/Libros');
 
             }
             else{
                 $viewBag['errores']=$errores;
-                $viewBag['editorial']=$editorial;
+                $viewBag['libro']=$libro;
+                $generosModel=new GenerosModel();
+                 $autoresModel=new AutoresModel();
+                $editorialesModel=new EditorialesModel();
+                $viewBag['editoriales']=$editorialesModel->get();
+                $viewBag['autores']=$autoresModel->get();
+                $viewBag['generos']=$generosModel->get();
                 $this->render("new.php",$viewBag);
             }
 

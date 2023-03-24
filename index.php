@@ -4,6 +4,7 @@ include_once 'Controller/LibrosController.php';
 include_once 'Controller/UsuariosController.php';
 include_once 'Core/config.php';
 $url=$_SERVER['REQUEST_URI'];
+session_start();//Iniciando sesion
 $url=explode("/",$url);
 $controller=empty($url[3])?"Index":$url[3];
 $controller.="Controller";
