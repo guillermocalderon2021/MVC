@@ -1,4 +1,5 @@
 <?php
+
 require_once 'Controller.php';
 require_once './Model/EditorialesModel.php';
 require_once './Core/validaciones.php';
@@ -7,6 +8,15 @@ class EditorialesController extends Controller{
     private $model;
 
     function __construct(){
+
+        if(is_null( $_SESSION['login_data'])){
+            header('location:'.PATH.'/Usuarios/login');
+        }
+        else if($_SESSION['login_data']['id_tipo_usuario']==2){
+            echo "<h1>PRueba</h1>";
+            exit;
+        }
+
         $this->model=new EditorialesModel();
     }
 
@@ -55,8 +65,18 @@ class EditorialesController extends Controller{
             }
 
             if(count($errores)==0){
-                $this->model->insertEditorial($editorial);
-                header('location:'.PATH.'/Editoriales');
+                if($this->model->insertEditorial($editorial)>0){
+                    $_SESSION['success_message']="Editorial creado exitosamente";
+                    header('location:'.PATH.'/Editoriales');
+                }
+                else{
+                    array_push($errores,"YA existe un editorial con este codigo");
+                    $viewBag['errores']=$errores;
+                    $viewBag['editorial']=$editorial;
+                    $this->render("new.php",$viewBag);
+
+                }
+                
 
             }
             else{

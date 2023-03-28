@@ -28,7 +28,11 @@ class UsuariosController extends Controller{
            // 
         }
         else{
-            $this->render("login.php");
+            $errores=array();
+            $viewBag=array();
+            array_push($errores,"El usuario y/o password son incorrectos");
+            $viewBag['errores']=$errores;
+            $this->render("login.php",$viewBag);
         }
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 require_once 'Model.php';
 class LibrosModel extends Model{
 
@@ -39,8 +40,8 @@ class LibrosModel extends Model{
 
     }
 
-    public function removeEditorial($id){
-        $query="DELETE FROM editoriales WHERE codigo_editorial=:codigo_editorial";
-        return $this->setQuery($query,['codigo_editorial'=>$id]);
+    public function removeLibro($id){
+        $query="DELETE FROM libros WHERE codigo_libro=:codigo_libro";
+        return $this->setQuery($query,['codigo_libro'=>$id]);
     }
 }

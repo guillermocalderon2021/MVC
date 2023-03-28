@@ -1,4 +1,5 @@
 <?php
+
 require_once 'Controller.php';
 require_once './Model/LibrosModel.php';
 require_once './Model/AutoresModel.php';
@@ -71,6 +72,7 @@ class LibrosController extends Controller{
             
             if(count($errores)==0){
             $this->model->insertLibro($libro);
+            $_SESSION['success_message']="libro creado exitosamente";
               header('location:'.PATH.'/Libros');
 
             }
@@ -96,6 +98,12 @@ class LibrosController extends Controller{
         $editorial=$this->model->get($id);
         $viewBag['editorial']=$editorial[0];
         $this->render("edit.php",$viewBag);
+    }
+
+    public function remove($id){
+        $this->model->removeLibro($id);
+        $_SESSION['success_message']="Libro eliminado exitosamente";
+        header('location:'.PATH.'/Libros');
     }
 
     public function update($id){

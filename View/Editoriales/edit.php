@@ -1,3 +1,4 @@
+<?php defined('BASEPATH') OR exit('Acceso no autorizado')?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

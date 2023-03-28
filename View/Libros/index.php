@@ -1,3 +1,4 @@
+<?php defined('BASEPATH') OR exit('Acceso no autorizado')?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +20,7 @@
                 <h3>Lista de libros</h3>
             </div>
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-12">
                     <a type="button" class="btn btn-primary btn-md" href="<?=PATH?>/Libros/create"> Nuevo Libro</a>
                 <br><br>
                 <table class="table table-striped table-bordered table-hover" id="tabla">
@@ -51,7 +52,7 @@
                         <td>
                                     <a data-toggle="tooltip" title="Detalles"  class="btn btn-default btn-circle" href="javascript:void(0)" onclick="detalles('<?=$libro['codigo_libro']?>')"><span class="glyphicon glyphicon-book"></span></a>
                                     <a title="Editar" class="btn btn-primary btn-circle" href="#"><span class="glyphicon glyphicon-edit"></span></a>
-                                    <a title="Eliminar"  class="btn btn-danger btn-circle" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+                                    <a title="Eliminar"  class="btn btn-danger btn-circle" href="<?=PATH.'/Libros/remove/'.$libro['codigo_libro'] ?>"><span class="glyphicon glyphicon-trash"></span></a>
                         </td>
                     </tr>
 

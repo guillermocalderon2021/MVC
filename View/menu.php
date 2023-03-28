@@ -1,4 +1,12 @@
-
+<?php
+if (isset($_SESSION['success_message'])){
+?>
+<script>
+alertify.success('<?=$_SESSION['success_message'] ?>');
+</script>
+<?php 
+unset($_SESSION['success_message']);
+} ?>
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -15,6 +23,16 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
               <li class="active"><a href="#">Inicio</a></li> 
+              <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
+                 role="button" aria-haspopup="true" 
+                 aria-expanded="false">Libros<span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="<?= PATH ?>/Libros/create">Registrar libro</a></li>
+                <li><a href="<?= PATH ?>/Libros">Ver lista de libros</a></li>
+              </ul>
+            </li>
+            <?php if($_SESSION['login_data']['id_tipo_usuario']==1){ ?>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
                  role="button" aria-haspopup="true" 
@@ -32,29 +50,21 @@
                 <li><a href="#">Registrar genero</a></li>
                 <li><a href="#">Ver lista de generos</a></li>
               </ul>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
-                 role="button" aria-haspopup="true" 
-                 aria-expanded="false">Libros<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Registrar libro</a></li>
-                <li><a href="#">Ver lista de libros</a></li>
-              </ul>
-            </li>
-            <li class="dropdown">
+            </li>       
+              <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
                  role="button" aria-haspopup="true" 
                  aria-expanded="false">Editoriales<span class="caret"></span></a>
               <ul class="dropdown-menu">
-                  <li><a href="#">Registrar editorial</a></li>
-                <li><a href="#">Ver lista de editoriales</a></li>
+                  <li><a href="<?= PATH ?>/Editoriales/create">Registrar editorial</a></li>
+                <li><a href="<?= PATH ?>/Editoriales">Ver lista de editoriales</a></li>
               </ul>
             </li>
+            <?php } ?>
           </ul>
           <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?=$_SESSION['login_data']['usuario']?> <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?=$_SESSION['login_data']['usuario']?> (<?=$_SESSION['login_data']['id_tipo_usuario']?>) <span class="caret"></span></a>
               <ul class="dropdown-menu">
                   <li><a href="<?= PATH ?>/Usuarios/logout">Cerrar sesion</a></li>
                 
